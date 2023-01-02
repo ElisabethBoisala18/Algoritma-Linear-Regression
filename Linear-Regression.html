@@ -149,9 +149,9 @@ text-align: justify}
 <h1>ALGORITMA LINEAR REGRESION</h1>
 <div id="pengertian-linear-regression" class="section level2">
 <h2>Pengertian Linear Regression</h2>
-<p>Menurut Kurniawan (2008), Regresi linier adalah metode statistika yang digunakan untuk membentuk model atau hubungan antara satu atau lebih variabel bebas X dengan sebuah variabel terikat Y. Analisis regresi dengan satu variabel bebas X disebut sebagai regresi linier sederhana, sedangkan jika terdapat lebih dari satu variabel bebas X, disebut sebagai regresi linier berganda.</p>
-<p>Sedangkan menurut Sani Susanto (2010,33), Regresi linear merupakan satu cara prediksi yang menggunakan garis lurus untuk menggambarkan hubungan diantara dua variabel atau lebih. variabel tersebut terbagi atas dua jenis yaitu variabel pemberi pengaruh dan variabel terpengaruh. Variabel pemberi pangaruh dapat dianalogikan sebab, sementara variabel terpengaruh merupakan akibat.</p>
-<p>Berdasarkan pengertin diatas dapat disimpulkan bahwa, Linear Regression adalah metode statistika yang digunakan untuk mempelajari hubungan antara variabel atau membentuk model, yang nantinya model tersebut akan digunakan untuk memprediksi masa depan.Walaupun prediksi yang dihasilkan tidak seakurat teknik yang lebih modern, tetapi <strong>liner regression</strong> cukup simpel dan mudah untuk dipahami.</p>
+<p><em>Menurut Kurniawan (2008)</em>, Regresi linier adalah metode statistika yang digunakan untuk membentuk model atau hubungan antara satu atau lebih variabel bebas X dengan sebuah variabel terikat Y. Analisis regresi dengan satu variabel bebas X disebut sebagai regresi linier sederhana, sedangkan jika terdapat lebih dari satu variabel bebas X, disebut sebagai regresi linier berganda.</p>
+<p>Sedangkan <em>menurut Sani Susanto (2010,33)</em>, Regresi linear merupakan satu cara prediksi yang menggunakan garis lurus untuk menggambarkan hubungan diantara dua variabel atau lebih. variabel tersebut terbagi atas dua jenis yaitu variabel pemberi pengaruh dan variabel terpengaruh. Variabel pemberi pangaruh dapat dianalogikan sebab, sementara variabel terpengaruh merupakan akibat.</p>
+<p>Berdasarkan pengertin diatas dapat disimpulkan bahwa, <em>Linear Regression</em> adalah metode statistika yang digunakan untuk mempelajari hubungan antara variabel atau membentuk model, yang nantinya model tersebut akan digunakan untuk memprediksi masa depan.Walaupun prediksi yang dihasilkan tidak seakurat teknik yang lebih modern, tetapi <strong>liner regression</strong> cukup simpel dan mudah untuk dipahami.</p>
 </div>
 </div>
 <div id="tahapan-algoritma-linear-regression" class="section level1">
@@ -190,6 +190,20 @@ text-align: justify}
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">View</span>(cpu_performance)</span></code></pre></div>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(cpu_performance) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;vendor.name&quot;</span>,<span class="st">&quot;model.name&quot;</span>,<span class="st">&quot;MYCT&quot;</span>,<span class="st">&quot;MMIN&quot;</span>,<span class="st">&quot;MMAX&quot;</span>,<span class="st">&quot;CACH&quot;</span>,<span class="st">&quot;CHMIN&quot;</span>,<span class="st">&quot;CHMAX&quot;</span>,<span class="st">&quot;PRP&quot;</span>,<span class="st">&quot;ERP&quot;</span>)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>cpu_performance <span class="ot">&lt;-</span> <span class="fu">select</span>(cpu_performance, <span class="sc">-</span><span class="fu">c</span>(<span class="st">&quot;ERP&quot;</span>))</span></code></pre></div>
+</div>
+<div id="summary-data" class="section level2">
+<h2>Summary Data</h2>
+<p><strong>Informasi Atribut</strong></p>
+<pre><code>1. Vendor Name : Pada data ini terdapat 30 orang vendor yaitu adviser, amdahl,apollo, basf, bti, burroughs, c.r.d, cambex, cdc, dec, dg, formation, four-phase, gould, honeywell, hp, ibm, ipl, magnuson, microdata, nas, ncr, nixdorf, perkin-elmer, prime, siemens, sperry, sratus, wang.
+2. Model Name : Pada nama model terdapat banyak simbol unik
+3. MYCT: waktu siklus mesin dalam nanodetik  (integer)
+4. MMIN: memori utama minimum dalam kilobyte  (integer)
+5. MMAX: memori utama maksimum dalam kilobyte (integer)
+6. CACH: memori cache dalam kilobyte (integer)
+7. CHMIN: kanal minimum dalam satuan (integer)
+8. CHMAX: maksimal channel dalam satuan (integer) 
+9. PRP: kinerja relatif yang dipublikasikan (integer)
+10. ERP:  perkiraan kinerja relatif dari artikel asli (integer) –diturunkan</code></pre>
 </div>
 </div>
 <div id="referensi" class="section level1">
