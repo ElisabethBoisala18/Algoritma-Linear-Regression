@@ -160,7 +160,6 @@ text-align: justify}
 <ol style="list-style-type: decimal">
 <li><p>Siapkan data</p></li>
 <li><p>Identifikasi Atribut dan label</p></li>
-<li><p>Mencari intercep dan slope</p></li>
 <li><p>Membuat model Linear Regresi</p></li>
 <li><p>Mengevaluasi Model</p></li>
 </ol>
@@ -203,10 +202,23 @@ text-align: justify}
 7. CHMIN: kanal minimum dalam satuan (integer)
 8. CHMAX: maksimal channel dalam satuan (integer) 
 9. PRP: kinerja relatif yang dipublikasikan (integer)
-10. ERP:  perkiraan kinerja relatif dari artikel asli (integer) –diturunkan</code></pre>
+10.ERP: perkiraan kinerja relatif dari artikel asli (integer) –diturunkan</code></pre>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(<span class="st">&quot;cpu performance.csv&quot;</span>)</span></code></pre></div>
 <pre><code>##  chr &quot;cpu performance.csv&quot;</code></pre>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="st">&quot;cpu performance.csv&quot;</span>)</span></code></pre></div>
+<p>## ‘data.frame’: 209 obs. of 9 variables:</p>
+<p>## $ vendor.name: Factor w/ 30 levels “adviser,”“amdahl,”.: 1 2 2 2 2 2 2 2 2 2 …</p>
+<p>## $ model.name : Factor w/ 209 levels “100,”“1100/61-h1,”.: 30 63 64 65 66 67 75 76 77 78 …</p>
+<p>## $ MYCT : int 125 29 29 29 29 26 23 23 23 23 …</p>
+<p>## $ MMIN : int 256 8000 8000 8000 8000 8000 16000 16000 16000 32000 …</p>
+<p>## $ MMAX : int 6000 32000 32000 32000 16000 32000 32000 32000 64000 64000 …</p>
+<p>## $ CACH : int 256 32 32 32 32 64 64 64 64 128 …</p>
+<p>## $ CHMIN : int 16 8 8 8 8 8 16 16 16 32 …</p>
+<p>## $ CHMAX : int 128 32 32 32 16 32 32 32 32 64 …</p>
+<p>## $ PRP : int 198 269 220 172 132 318 367 489 636 1144 …</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="st">&quot;cpu performance.csv&quot;</span>)</span></code></pre></div>
+<pre><code>##    Length     Class      Mode 
+##         1 character character</code></pre>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="st">&quot;cpu performance.csv&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;cpu performance.csv&quot;</code></pre>
 </div>
 </div>

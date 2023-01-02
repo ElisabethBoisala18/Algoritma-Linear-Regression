@@ -27,9 +27,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 Sedangkan *menurut Sani Susanto (2010,33)*, Regresi linear merupakan satu cara prediksi yang menggunakan garis lurus untuk menggambarkan hubungan diantara dua variabel atau lebih. variabel tersebut terbagi atas dua jenis yaitu variabel pemberi pengaruh dan variabel terpengaruh. Variabel pemberi pangaruh dapat dianalogikan sebab, sementara variabel terpengaruh merupakan akibat.
 
-
 Berdasarkan pengertin diatas dapat disimpulkan bahwa, *Linear Regression* adalah metode statistika yang digunakan untuk mempelajari hubungan antara variabel atau membentuk model, yang nantinya model tersebut akan digunakan untuk memprediksi masa depan.Walaupun prediksi yang dihasilkan tidak seakurat teknik yang lebih modern, tetapi **liner regression** cukup simpel dan mudah untuk dipahami.
-
 
 # TAHAPAN ALGORITMA LINEAR REGRESSION
 
@@ -39,11 +37,9 @@ Algoritma linear regression memiliki beberapa tahapan, yaitu :
 
 2.  Identifikasi Atribut dan label
 
-3.  Mencari intercep dan slope
+3.  Membuat model Linear Regresi
 
-4.  Membuat model Linear Regresi
-
-5.  Mengevaluasi Model
+4.  Mengevaluasi Model
 
 # EKSPERIMEN ALGORITMA LINEAR REGRESSION
 
@@ -86,11 +82,56 @@ cpu_performance <- select(cpu_performance, -c("ERP"))
     7. CHMIN: kanal minimum dalam satuan (integer)
     8. CHMAX: maksimal channel dalam satuan (integer) 
     9. PRP: kinerja relatif yang dipublikasikan (integer)
-    10. ERP:  perkiraan kinerja relatif dari artikel asli (integer) –diturunkan
+    10.ERP: perkiraan kinerja relatif dari artikel asli (integer) –diturunkan
+
 ```{r}
 str("cpu performance.csv")
+```
+
+## 'data.frame': 209 obs. of 9 variables:
+
+## \$ vendor.name: Factor w/ 30 levels "adviser","amdahl",..: 1 2 2 2 2 2 2 2 2 2 ...
+
+## \$ model.name : Factor w/ 209 levels "100","1100/61-h1",..: 30 63 64 65 66 67 75 76 77 78 ...
+
+## \$ MYCT : int 125 29 29 29 29 26 23 23 23 23 ...
+
+## \$ MMIN : int 256 8000 8000 8000 8000 8000 16000 16000 16000 32000 ...
+
+## \$ MMAX : int 6000 32000 32000 32000 16000 32000 32000 32000 64000 64000 ...
+
+## \$ CACH : int 256 32 32 32 32 64 64 64 64 128 ...
+
+## \$ CHMIN : int 16 8 8 8 8 8 16 16 16 32 ...
+
+## \$ CHMAX : int 128 32 32 32 16 32 32 32 32 64 ...
+
+## \$ PRP : int 198 269 220 172 132 318 367 489 636 1144 ...
+
+```{r}
+summary("cpu performance.csv")
+```
+
+```{r}
 head("cpu performance.csv")
 ```
-    
-    
+
+## Create Training and Test Data
+
+```{r}
+set.seed(2)
+trainingRowIndex <- sample(3:nrow(cpu.performance), 0.7*nrow(cpu.performance))
+trainingData <- cpu.performance[trainingRowIndex, ]
+testData <- cpu.performance[-trainingRowIndex,]
+```
+
+## Build Model
+
+Membuat model linear regression multivariable.
+
+```{r}
+lm.cpu.performance <- lm(PRP ~ CHCMIN+CHMAX+CACH+MMAX+MMIN+MYCT, data = trainingData)
+perf.pred <- predict(lm.cpu.performance, testData)
+```
+
 # REFERENSI
