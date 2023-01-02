@@ -87,5 +87,10 @@ cpu_performance <- select(cpu_performance, -c("ERP"))
     8. CHMAX: maksimal channel dalam satuan (integer) 
     9. PRP: kinerja relatif yang dipublikasikan (integer)
     10. ERP:  perkiraan kinerja relatif dari artikel asli (integer) –diturunkan
+```{r}
+str("cpu performance.csv")
+head("cpu performance.csv")
+```
+    
     
 # REFERENSI
