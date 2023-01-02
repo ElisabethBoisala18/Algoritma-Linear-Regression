@@ -23,7 +23,13 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Pengertian Linear Regression
 
-Linear Regression adalah metode statistika yang digunakan untuk mempelajari hubungan antara variabel atau membentuk model, yang nantinya model tersebut akan digunakan untuk memprediksi masa depan.Walaupun prediksi yang dihasilkan tidak seakurat teknik yang lebih modern, tetapi **liner regression** cukup simpel dan mudah untuk dipahami.
+Menurut Kurniawan (2008), Regresi linier adalah metode statistika yang digunakan untuk membentuk model atau hubungan antara satu atau lebih variabel bebas X dengan sebuah variabel terikat Y. Analisis regresi dengan satu variabel bebas X disebut sebagai regresi linier sederhana, sedangkan jika terdapat lebih dari satu variabel bebas X, disebut sebagai regresi linier berganda.
+
+Sedangkan menurut Sani Susanto (2010,33), Regresi linear merupakan satu cara prediksi yang menggunakan garis lurus untuk menggambarkan hubungan diantara dua variabel atau lebih. variabel tersebut terbagi atas dua jenis yaitu variabel pemberi pengaruh dan variabel terpengaruh. Variabel pemberi pangaruh dapat dianalogikan sebab, sementara variabel terpengaruh merupakan akibat.
+
+
+Berdasarkan pengertin diatas dapat disimpulkan bahwa, Linear Regression adalah metode statistika yang digunakan untuk mempelajari hubungan antara variabel atau membentuk model, yang nantinya model tersebut akan digunakan untuk memprediksi masa depan.Walaupun prediksi yang dihasilkan tidak seakurat teknik yang lebih modern, tetapi **liner regression** cukup simpel dan mudah untuk dipahami.
+
 
 # TAHAPAN ALGORITMA LINEAR REGRESSION
 
@@ -37,7 +43,7 @@ Algoritma linear regression memiliki beberapa tahapan, yaitu :
 
 4.  Membuat model Linear Regresi
 
-5.  Evaluasi Model
+5.  Mengevaluasi Model
 
 # EKSPERIMEN ALGORITMA LINEAR REGRESSION
 
