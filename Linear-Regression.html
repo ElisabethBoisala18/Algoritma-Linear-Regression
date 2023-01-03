@@ -282,6 +282,32 @@ text-align: justify}
 </div>
 <div id="actual-vs-prediction" class="section level2">
 <h2>Actual vs Prediction</h2>
+<p>Membuat dataframe dari PRP (Actual) dan perf.pred (Prediksi)</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>actuals.preds <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">cbind</span>(<span class="at">actuals=</span> testData<span class="sc">$</span>PRP, <span class="at">predicteds=</span> perf.pred))</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(actuals.preds)</span></code></pre></div>
+<pre><code>##              actuals predicteds
+## actuals    1.0000000  0.8635027
+## predicteds 0.8635027  1.0000000</code></pre>
+<p>Berikut gambaran hasil yang didaptkan. Terlihat sangat jauh pada hasil aktual dengan prediksinya.</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(actuals.preds)</span></code></pre></div>
+<pre><code>##   actuals predicteds
+## 1     198 356.331064
+## 2     269 330.616499
+## 3     172 330.616499
+## 4     318 348.918639
+## 5     636 663.096565
+## 6      40   2.767694</code></pre>
+</div>
+<div id="min-max-accuracy-mape-mean-absolute-percentage-error" class="section level2">
+<h2>Min Max Accuracy &amp; MAPE (Mean Absolute Percentage Error)</h2>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>min_max_accuracy <span class="ot">&lt;-</span> <span class="fu">mean</span>(<span class="fu">apply</span>(actuals.preds, <span class="dv">1</span>, min) <span class="sc">/</span> <span class="fu">apply</span>(actuals.preds, <span class="dv">1</span>, max))</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>min_max_accuracy</span></code></pre></div>
+<pre><code>## [1] 0.3657729</code></pre>
+<p>Didapatkan nilai 36% pada hasil akurasi modelnya. Pada Min Max Accuracy, semakin besar semakin baik.</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>mape <span class="ot">&lt;-</span> <span class="fu">mean</span>(<span class="fu">abs</span>((actuals.preds<span class="sc">$</span>predicteds <span class="sc">-</span> actuals.preds<span class="sc">$</span>actuals))<span class="sc">/</span>actuals.preds<span class="sc">$</span>actuals)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>mape</span></code></pre></div>
+<pre><code>## [1] 0.9308188</code></pre>
 </div>
 </div>
 <div id="referensi" class="section level1">

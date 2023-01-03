@@ -159,4 +159,40 @@ Slope MYCT  =  6.346e-02
 
 ## Actual vs Prediction
 
+Membuat dataframe dari PRP (Actual) dan perf.pred (Prediksi)
+
+```{r}
+actuals.preds <- data.frame(cbind(actuals= testData$PRP, predicteds= perf.pred))
+
+cor(actuals.preds)
+```
+
+Berikut gambaran hasil yang didaptkan. Terlihat sangat jauh pada hasil aktual dengan prediksinya.
+
+```{r}
+head(actuals.preds)
+```
+
+## Min Max Accuracy & MAPE (Mean Absolute Percentage Error)
+
+```{r}
+min_max_accuracy <- mean(apply(actuals.preds, 1, min) / apply(actuals.preds, 1, max))
+min_max_accuracy
+```
+Didapatkan nilai 36% pada hasil akurasi modelnya. Pada Min Max Accuracy, semakin besar semakin baik.
+
+```{r}
+mape <- mean(abs((actuals.preds$predicteds - actuals.preds$actuals))/actuals.preds$actuals)
+mape
+```
+
+
+
+
+
+
+
+
+
+
 # REFERENSI
