@@ -143,7 +143,7 @@ summary(lm.cpu_performance)
 ```
 Berdasarkan hasil diatas, dapat diketahui bahwa 
 
-intercept   = -6.516e+01
+intercept    =  -6.516e+01
 
 Slope CHMAX =  1.908e+00 
 
@@ -157,5 +157,6 @@ Slope MMIN  =  1.500e-02
 
 Slope MYCT  =  6.346e-02
 
+## Actual vs Prediction
 
 # REFERENSI
