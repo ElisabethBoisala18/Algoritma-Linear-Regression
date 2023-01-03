@@ -33,14 +33,16 @@ Berdasarkan pengertin diatas dapat disimpulkan bahwa, *Linear Regression* adalah
 
 Algoritma linear regression memiliki beberapa tahapan, yaitu :
 
-1.  Siapkan data
+   1. Siapkan data
 
-2.  Identifikasi Atribut dan label
+   2. Identifikasi Atribut dan label
+  
+   3. Mencari nilai intercept dan slope
 
-3.  Membuat model Linear Regresi
+   4. Membuat model Linear Regresi
 
-4.  Mengevaluasi Model
-
+   5. Mengevaluasi Model
+ 
 # EKSPERIMEN ALGORITMA LINEAR REGRESSION
 
 Pada artikel ini saya akan memakai dataset CPU untuk mencari tahu pengaruh antar variabelnya.
@@ -88,25 +90,25 @@ cpu_performance <- select(cpu_performance, -c("ERP"))
 str("cpu performance.csv")
 ```
 
-## 'data.frame': 209 obs. of 9 variables:
+    ## 'data.frame': 209 obs. of 9 variables:
 
-## \$ vendor.name: Factor w/ 30 levels "adviser","amdahl",..: 1 2 2 2 2 2 2 2 2 2 ...
+    ## \$ vendor.name: Factor w/ 30 levels "adviser","amdahl",..: 1 2 2 2 2 2 2 2 2 2 ...
 
-## \$ model.name : Factor w/ 209 levels "100","1100/61-h1",..: 30 63 64 65 66 67 75 76 77 78 ...
+    ## \$ model.name : Factor w/ 209 levels "100","1100/61-h1",..: 30 63 64 65 66 67 75 76 77 78 ...
 
-## \$ MYCT : int 125 29 29 29 29 26 23 23 23 23 ...
+    ## \$ MYCT : int 125 29 29 29 29 26 23 23 23 23 ...
 
-## \$ MMIN : int 256 8000 8000 8000 8000 8000 16000 16000 16000 32000 ...
+    ## \$ MMIN : int 256 8000 8000 8000 8000 8000 16000 16000 16000 32000 ...
 
-## \$ MMAX : int 6000 32000 32000 32000 16000 32000 32000 32000 64000 64000 ...
+    ## \$ MMAX : int 6000 32000 32000 32000 16000 32000 32000 32000 64000 64000 ...
 
-## \$ CACH : int 256 32 32 32 32 64 64 64 64 128 ...
+    ## \$ CACH : int 256 32 32 32 32 64 64 64 64 128 ...
 
-## \$ CHMIN : int 16 8 8 8 8 8 16 16 16 32 ...
+    ## \$ CHMIN : int 16 8 8 8 8 8 16 16 16 32 ...
 
-## \$ CHMAX : int 128 32 32 32 16 32 32 32 32 64 ...
+    ## \$ CHMAX : int 128 32 32 32 16 32 32 32 32 64 ...
 
-## \$ PRP : int 198 269 220 172 132 318 367 489 636 1144 ...
+    ## \$ PRP : int 198 269 220 172 132 318 367 489 636 1144 ...
 
 ```{r}
 summary("cpu performance.csv")
@@ -120,9 +122,9 @@ head("cpu performance.csv")
 
 ```{r}
 set.seed(2)
-trainingRowIndex <- sample(3:nrow(cpu.performance), 0.7*nrow(cpu.performance))
-trainingData <- cpu.performance[trainingRowIndex, ]
-testData <- cpu.performance[-trainingRowIndex,]
+trainingRowIndex <- sample(3:NROW(cpu_performance), 0.7*NROW(cpu_performance))
+trainingData <- cpu_performance[trainingRowIndex, ]
+testData <- cpu_performance[-trainingRowIndex,]
 ```
 
 ## Build Model
@@ -130,8 +132,30 @@ testData <- cpu.performance[-trainingRowIndex,]
 Membuat model linear regression multivariable.
 
 ```{r}
-lm.cpu.performance <- lm(PRP ~ CHCMIN+CHMAX+CACH+MMAX+MMIN+MYCT, data = trainingData)
-perf.pred <- predict(lm.cpu.performance, testData)
+lm.cpu_performance <- lm(PRP ~ CHMIN+CHMAX+CACH+MMAX+MMIN+MYCT, data = trainingData)
+perf.pred <- predict(lm.cpu_performance, testData)
 ```
+
+## Summary Linear MOd
+
+```{r}
+summary(lm.cpu_performance)
+```
+Berdasarkan hasil diatas, dapat diketahui bahwa 
+
+intercept   = -6.516e+01
+
+Slope CHMAX =  1.908e+00 
+
+Slope CHMIN = -1.307e+00
+
+Slope CACH  =  5.779e-01
+
+Slope MMAX  =  6.402e-03
+
+Slope MMIN  =  1.500e-02
+
+Slope MYCT  =  6.346e-02
+
 
 # REFERENSI

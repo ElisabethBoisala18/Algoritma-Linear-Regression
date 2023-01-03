@@ -12,7 +12,7 @@
 
 <meta name="author" content="Elisabeth Boisala - Institut Teknologi Statistika dan Bisnis Muhammadiyah Semarang" />
 
-<meta name="date" content="2023-01-02" />
+<meta name="date" content="2023-01-03" />
 
 <title>Algoritma Linear Regression dengan R</title>
 
@@ -132,7 +132,7 @@ a.sourceLine {
 <div class="inner">
 <h1 class="title toc-ignore">Algoritma Linear Regression dengan R</h1>
 <h3 class="author">Elisabeth Boisala - Institut Teknologi Statistika dan Bisnis Muhammadiyah Semarang</h3>
-<h3 class="date">2023-01-02</h3>
+<h3 class="date">2023-01-03</h3>
 </div>
 </header>
 
@@ -160,6 +160,7 @@ text-align: justify}
 <ol style="list-style-type: decimal">
 <li><p>Siapkan data</p></li>
 <li><p>Identifikasi Atribut dan label</p></li>
+<li><p>Mencari nilai intercept dan slope</p></li>
 <li><p>Membuat model Linear Regresi</p></li>
 <li><p>Mengevaluasi Model</p></li>
 </ol>
@@ -182,7 +183,7 @@ text-align: justify}
 ## -- Column specification --------------------------------------------------------
 ## Delimiter: &quot;,&quot;
 ## chr (2): Vendor name, Model Name
-## dbl (8): MYCT, MMIN, MMAX, CACH, CHCMIN, CHMAX, PRP, ERP
+## dbl (8): MYCT, MMIN, MMAX, CACH, CHMIN, CHMAX, PRP, ERP
 ## 
 ## i Use `spec()` to retrieve the full column specification for this data.
 ## i Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
@@ -205,21 +206,79 @@ text-align: justify}
 10.ERP: perkiraan kinerja relatif dari artikel asli (integer) –diturunkan</code></pre>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(<span class="st">&quot;cpu performance.csv&quot;</span>)</span></code></pre></div>
 <pre><code>##  chr &quot;cpu performance.csv&quot;</code></pre>
-<p>## ‘data.frame’: 209 obs. of 9 variables:</p>
-<p>## $ vendor.name: Factor w/ 30 levels “adviser,”“amdahl,”.: 1 2 2 2 2 2 2 2 2 2 …</p>
-<p>## $ model.name : Factor w/ 209 levels “100,”“1100/61-h1,”.: 30 63 64 65 66 67 75 76 77 78 …</p>
-<p>## $ MYCT : int 125 29 29 29 29 26 23 23 23 23 …</p>
-<p>## $ MMIN : int 256 8000 8000 8000 8000 8000 16000 16000 16000 32000 …</p>
-<p>## $ MMAX : int 6000 32000 32000 32000 16000 32000 32000 32000 64000 64000 …</p>
-<p>## $ CACH : int 256 32 32 32 32 64 64 64 64 128 …</p>
-<p>## $ CHMIN : int 16 8 8 8 8 8 16 16 16 32 …</p>
-<p>## $ CHMAX : int 128 32 32 32 16 32 32 32 32 64 …</p>
-<p>## $ PRP : int 198 269 220 172 132 318 367 489 636 1144 …</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="st">&quot;cpu performance.csv&quot;</span>)</span></code></pre></div>
+<pre><code>## &#39;data.frame&#39;: 209 obs. of 9 variables:
+
+## \$ vendor.name: Factor w/ 30 levels &quot;adviser&quot;,&quot;amdahl&quot;,..: 1 2 2 2 2 2 2 2 2 2 ...
+
+## \$ model.name : Factor w/ 209 levels &quot;100&quot;,&quot;1100/61-h1&quot;,..: 30 63 64 65 66 67 75 76 77 78 ...
+
+## \$ MYCT : int 125 29 29 29 29 26 23 23 23 23 ...
+
+## \$ MMIN : int 256 8000 8000 8000 8000 8000 16000 16000 16000 32000 ...
+
+## \$ MMAX : int 6000 32000 32000 32000 16000 32000 32000 32000 64000 64000 ...
+
+## \$ CACH : int 256 32 32 32 32 64 64 64 64 128 ...
+
+## \$ CHMIN : int 16 8 8 8 8 8 16 16 16 32 ...
+
+## \$ CHMAX : int 128 32 32 32 16 32 32 32 32 64 ...
+
+## \$ PRP : int 198 269 220 172 132 318 367 489 636 1144 ...</code></pre>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="st">&quot;cpu performance.csv&quot;</span>)</span></code></pre></div>
 <pre><code>##    Length     Class      Mode 
 ##         1 character character</code></pre>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="st">&quot;cpu performance.csv&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="st">&quot;cpu performance.csv&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;cpu performance.csv&quot;</code></pre>
+</div>
+<div id="create-training-and-test-data" class="section level2">
+<h2>Create Training and Test Data</h2>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2</span>)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>trainingRowIndex <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">3</span><span class="sc">:</span><span class="fu">NROW</span>(cpu_performance), <span class="fl">0.7</span><span class="sc">*</span><span class="fu">NROW</span>(cpu_performance))</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>trainingData <span class="ot">&lt;-</span> cpu_performance[trainingRowIndex, ]</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>testData <span class="ot">&lt;-</span> cpu_performance[<span class="sc">-</span>trainingRowIndex,]</span></code></pre></div>
+</div>
+<div id="build-model" class="section level2">
+<h2>Build Model</h2>
+<p>Membuat model linear regression multivariable.</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>lm.cpu_performance <span class="ot">&lt;-</span> <span class="fu">lm</span>(PRP <span class="sc">~</span> CHMIN<span class="sc">+</span>CHMAX<span class="sc">+</span>CACH<span class="sc">+</span>MMAX<span class="sc">+</span>MMIN<span class="sc">+</span>MYCT, <span class="at">data =</span> trainingData)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>perf.pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(lm.cpu_performance, testData)</span></code></pre></div>
+</div>
+<div id="summary-linear-mod" class="section level2">
+<h2>Summary Linear MOd</h2>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lm.cpu_performance)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = PRP ~ CHMIN + CHMAX + CACH + MMAX + MMIN + MYCT, 
+##     data = trainingData)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -181.472  -29.351    8.266   31.525  289.395 
+## 
+## Coefficients:
+##               Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) -6.516e+01  9.415e+00  -6.920 1.52e-10 ***
+## CHMIN       -1.307e+00  8.986e-01  -1.455  0.14793    
+## CHMAX        1.908e+00  2.575e-01   7.411 1.11e-11 ***
+## CACH         5.779e-01  1.671e-01   3.459  0.00072 ***
+## MMAX         6.402e-03  8.019e-04   7.984 4.81e-13 ***
+## MMIN         1.500e-02  1.972e-03   7.603 3.91e-12 ***
+## MYCT         6.346e-02  2.123e-02   2.989  0.00331 ** 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 58.72 on 139 degrees of freedom
+## Multiple R-squared:  0.8946, Adjusted R-squared:   0.89 
+## F-statistic: 196.6 on 6 and 139 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p>Berdasarkan hasil diatas, dapat diketahui bahwa</p>
+<p>intercept = -6.516e+01</p>
+<p>Slope CHMAX = 1.908e+00</p>
+<p>Slope CHMIN = -1.307e+00</p>
+<p>Slope CACH = 5.779e-01</p>
+<p>Slope MMAX = 6.402e-03</p>
+<p>Slope MMIN = 1.500e-02</p>
+<p>Slope MYCT = 6.346e-02</p>
 </div>
 </div>
 <div id="referensi" class="section level1">
