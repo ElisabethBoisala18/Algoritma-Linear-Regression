@@ -12,7 +12,7 @@
 
 <meta name="author" content="Elisabeth Boisala - Institut Teknologi Statistika dan Bisnis Muhammadiyah Semarang" />
 
-<meta name="date" content="2023-01-03" />
+<meta name="date" content="2023-01-04" />
 
 <title>Algoritma Linear Regression dengan R</title>
 
@@ -132,7 +132,7 @@ a.sourceLine {
 <div class="inner">
 <h1 class="title toc-ignore">Algoritma Linear Regression dengan R</h1>
 <h3 class="author">Elisabeth Boisala - Institut Teknologi Statistika dan Bisnis Muhammadiyah Semarang</h3>
-<h3 class="date">2023-01-03</h3>
+<h3 class="date">2023-01-04</h3>
 </div>
 </header>
 
@@ -150,16 +150,16 @@ text-align: justify}
 <div id="pengertian-linear-regression" class="section level2">
 <h2>Pengertian Linear Regression</h2>
 <p><em>Menurut Kurniawan (2008)</em>, Regresi linier adalah metode statistika yang digunakan untuk membentuk model atau hubungan antara satu atau lebih variabel bebas X dengan sebuah variabel terikat Y. Analisis regresi dengan satu variabel bebas X disebut sebagai regresi linier sederhana, sedangkan jika terdapat lebih dari satu variabel bebas X, disebut sebagai regresi linier berganda.</p>
-<p>Sedangkan <em>menurut Sani Susanto (2010,33)</em>, Regresi linear merupakan satu cara prediksi yang menggunakan garis lurus untuk menggambarkan hubungan diantara dua variabel atau lebih. variabel tersebut terbagi atas dua jenis yaitu variabel pemberi pengaruh dan variabel terpengaruh. Variabel pemberi pangaruh dapat dianalogikan sebab, sementara variabel terpengaruh merupakan akibat.</p>
-<p>Berdasarkan pengertin diatas dapat disimpulkan bahwa, <em>Linear Regression</em> adalah metode statistika yang digunakan untuk mempelajari hubungan antara variabel atau membentuk model, yang nantinya model tersebut akan digunakan untuk memprediksi masa depan.Walaupun prediksi yang dihasilkan tidak seakurat teknik yang lebih modern, tetapi <strong>liner regression</strong> cukup simpel dan mudah untuk dipahami.</p>
+<p>Sedangkan <em>menurut Sani Susanto (2010, 33)</em>, Regresi linear merupakan satu cara prediksi yang menggunakan garis lurus untuk menggambarkan hubungan diantara dua variabel atau lebih. variabel tersebut terbagi atas dua jenis yaitu variabel pemberi pengaruh dan variabel terpengaruh. Variabel pemberi pangaruh dapat dianalogikan sebab, sementara variabel terpengaruh merupakan akibat.</p>
+<p>Berdasarkan pengertin diatas dapat disimpulkan bahwa, <em>Linear Regression adalah metode statistika yang digunakan untuk mempelajari hubungan antara variabel atau membentuk model, yang nantinya model tersebut akan digunakan untuk memprediksi masa depan.Walaupun prediksi yang dihasilkan tidak seakurat teknik yang lebih modern, tetapi liner regression cukup simpel dan mudah untuk dipahami.</em></p>
 </div>
 </div>
 <div id="tahapan-algoritma-linear-regression" class="section level1">
 <h1>TAHAPAN ALGORITMA LINEAR REGRESSION</h1>
 <p>Algoritma linear regression memiliki beberapa tahapan, yaitu :</p>
 <ol style="list-style-type: decimal">
-<li><p>Siapkan data</p></li>
-<li><p>Identifikasi Atribut dan label</p></li>
+<li><p>Menyiapkan data</p></li>
+<li><p>mengidentifikasi Atribut dan label</p></li>
 <li><p>Mencari nilai intercept dan slope</p></li>
 <li><p>Membuat model Linear Regresi</p></li>
 <li><p>Mengevaluasi Model</p></li>
@@ -170,9 +170,10 @@ text-align: justify}
 <p>Pada artikel ini saya akan memakai dataset CPU untuk mencari tahu pengaruh antar variabelnya.</p>
 <div id="library" class="section level2">
 <h2>Library</h2>
-<p>untuk menjalankan algoritma LR dibutuhkan packages <a href="https://www.rdocumentation.org/packages/dplyr/versions/1.0.10">dplyr</a></p>
+<p>Untuk menjalankan algoritma Linear Regression dibutuhkan packages <a href="https://www.rdocumentation.org/packages/dplyr/versions/1.0.10">dplyr</a> dan <a href="https://cran.r-project.org/web/packages/jtools/index.html">jtools</a></p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(jtools)</span></code></pre></div>
+<p>Setelah sudah menginstal Packages “dplyr dan jtools,” berikutnya siapkan dataset yang akan digunakan.</p>
 </div>
 <div id="dataset" class="section level2">
 <h2>Dataset</h2>
@@ -188,6 +189,8 @@ text-align: justify}
 ## i Use `spec()` to retrieve the full column specification for this data.
 ## i Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">View</span>(cpu_performance)</span></code></pre></div>
+<p>Jika dataset yang diinginkan sudah siap, maka langkah selanjutnya adalah mengidentifikasi label dan atribut.</p>
+<p>Label adalah atribut yang akan dijadikan target ( variabel yang dipengaruhi / dependen). Sedangkan Atribut adalah faktor atau parameter yang menyebabkan label terjadi (variabel yang mepengaruhi / independen).</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(cpu_performance) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;vendor.name&quot;</span>,<span class="st">&quot;model.name&quot;</span>,<span class="st">&quot;MYCT&quot;</span>,<span class="st">&quot;MMIN&quot;</span>,<span class="st">&quot;MMAX&quot;</span>,<span class="st">&quot;CACH&quot;</span>,<span class="st">&quot;CHMIN&quot;</span>,<span class="st">&quot;CHMAX&quot;</span>,<span class="st">&quot;PRP&quot;</span>,<span class="st">&quot;ERP&quot;</span>)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>cpu_performance <span class="ot">&lt;-</span> <span class="fu">select</span>(cpu_performance, <span class="sc">-</span><span class="fu">c</span>(<span class="st">&quot;ERP&quot;</span>))</span></code></pre></div>
 </div>
@@ -204,6 +207,7 @@ text-align: justify}
 8. CHMAX: maksimal channel dalam satuan (integer) 
 9. PRP: kinerja relatif yang dipublikasikan (integer)
 10.ERP: perkiraan kinerja relatif dari artikel asli (integer) –diturunkan</code></pre>
+<p>Pada dataset ini, yang akan dijadikan sebagai label adalah PRP dan yang akan dijdikan sebagai atribut adalah MYCT, MMAX, CACH, CHMIN, dan CHMAX.</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(<span class="st">&quot;cpu performance.csv&quot;</span>)</span></code></pre></div>
 <pre><code>##  chr &quot;cpu performance.csv&quot;</code></pre>
 <pre><code>## &#39;data.frame&#39;: 209 obs. of 9 variables:
@@ -240,12 +244,14 @@ text-align: justify}
 </div>
 <div id="build-model" class="section level2">
 <h2>Build Model</h2>
-<p>Membuat model linear regression multivariable.</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>lm.cpu_performance <span class="ot">&lt;-</span> <span class="fu">lm</span>(PRP <span class="sc">~</span> CHMIN<span class="sc">+</span>CHMAX<span class="sc">+</span>CACH<span class="sc">+</span>MMAX<span class="sc">+</span>MMIN<span class="sc">+</span>MYCT, <span class="at">data =</span> trainingData)</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>perf.pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(lm.cpu_performance, testData)</span></code></pre></div>
+<p>Sebelum membuat model kita harus mencari nilai intercept dan slope terlebih dahulu.</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Membuat model linear regression multivariable.</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>lm.cpu_performance <span class="ot">&lt;-</span> <span class="fu">lm</span>(PRP <span class="sc">~</span> CHMIN<span class="sc">+</span>CHMAX<span class="sc">+</span>CACH<span class="sc">+</span>MMAX<span class="sc">+</span>MMIN<span class="sc">+</span>MYCT, <span class="at">data =</span> trainingData)</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>perf.pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(lm.cpu_performance, testData)</span></code></pre></div>
 </div>
 <div id="summary-linear-mod" class="section level2">
-<h2>Summary Linear MOd</h2>
+<h2>Summary Linear Mod</h2>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lm.cpu_performance)</span></code></pre></div>
 <pre><code>## 
 ## Call:
@@ -272,13 +278,16 @@ text-align: justify}
 ## Multiple R-squared:  0.8946, Adjusted R-squared:   0.89 
 ## F-statistic: 196.6 on 6 and 139 DF,  p-value: &lt; 2.2e-16</code></pre>
 <p>Berdasarkan hasil diatas, dapat diketahui bahwa</p>
-<p>intercept = -6.516e+01</p>
-<p>Slope CHMAX = 1.908e+00</p>
-<p>Slope CHMIN = -1.307e+00</p>
-<p>Slope CACH = 5.779e-01</p>
-<p>Slope MMAX = 6.402e-03</p>
-<p>Slope MMIN = 1.500e-02</p>
-<p>Slope MYCT = 6.346e-02</p>
+<ol style="list-style-type: decimal">
+<li><p><a href="http://r-statistics.co/Linear-Regression.html">nilai R-squared = 0.8946 dan nilai Adjusted R-squared = 0.89 lebih dari 0.70.</a></p></li>
+<li><p>intercept = -6.516e+01</p></li>
+<li><p>Slope CHMAX = 1.908e+00</p></li>
+<li><p>Slope CHMIN = -1.307e+00</p></li>
+<li><p>Slope CACH = 5.779e-01</p></li>
+<li><p>Slope MMAX = 6.402e-03</p></li>
+<li><p>Slope MMIN = 1.500e-02</p></li>
+<li><p>Slope MYCT = 6.346e-02</p></li>
+</ol>
 </div>
 <div id="actual-vs-prediction" class="section level2">
 <h2>Actual vs Prediction</h2>

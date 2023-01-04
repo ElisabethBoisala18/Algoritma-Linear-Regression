@@ -25,36 +25,38 @@ knitr::opts_chunk$set(echo = TRUE)
 
 *Menurut Kurniawan (2008)*, Regresi linier adalah metode statistika yang digunakan untuk membentuk model atau hubungan antara satu atau lebih variabel bebas X dengan sebuah variabel terikat Y. Analisis regresi dengan satu variabel bebas X disebut sebagai regresi linier sederhana, sedangkan jika terdapat lebih dari satu variabel bebas X, disebut sebagai regresi linier berganda.
 
-Sedangkan *menurut Sani Susanto (2010,33)*, Regresi linear merupakan satu cara prediksi yang menggunakan garis lurus untuk menggambarkan hubungan diantara dua variabel atau lebih. variabel tersebut terbagi atas dua jenis yaitu variabel pemberi pengaruh dan variabel terpengaruh. Variabel pemberi pangaruh dapat dianalogikan sebab, sementara variabel terpengaruh merupakan akibat.
+Sedangkan *menurut Sani Susanto (2010, 33)*, Regresi linear merupakan satu cara prediksi yang menggunakan garis lurus untuk menggambarkan hubungan diantara dua variabel atau lebih. variabel tersebut terbagi atas dua jenis yaitu variabel pemberi pengaruh dan variabel terpengaruh. Variabel pemberi pangaruh dapat dianalogikan sebab, sementara variabel terpengaruh merupakan akibat.
 
-Berdasarkan pengertin diatas dapat disimpulkan bahwa, *Linear Regression* adalah metode statistika yang digunakan untuk mempelajari hubungan antara variabel atau membentuk model, yang nantinya model tersebut akan digunakan untuk memprediksi masa depan.Walaupun prediksi yang dihasilkan tidak seakurat teknik yang lebih modern, tetapi **liner regression** cukup simpel dan mudah untuk dipahami.
+Berdasarkan pengertin diatas dapat disimpulkan bahwa, *Linear Regression adalah metode statistika yang digunakan untuk mempelajari hubungan antara variabel atau membentuk model, yang nantinya model tersebut akan digunakan untuk memprediksi masa depan.Walaupun prediksi yang dihasilkan tidak seakurat teknik yang lebih modern, tetapi liner regression cukup simpel dan mudah untuk dipahami.*
 
 # TAHAPAN ALGORITMA LINEAR REGRESSION
 
 Algoritma linear regression memiliki beberapa tahapan, yaitu :
 
-   1. Siapkan data
+1.  Menyiapkan data
 
-   2. Identifikasi Atribut dan label
-  
-   3. Mencari nilai intercept dan slope
+2.  mengidentifikasi Atribut dan label
 
-   4. Membuat model Linear Regresi
+3.  Mencari nilai intercept dan slope
 
-   5. Mengevaluasi Model
- 
+4.  Membuat model Linear Regresi
+
+5.  Mengevaluasi Model
+
 # EKSPERIMEN ALGORITMA LINEAR REGRESSION
 
 Pada artikel ini saya akan memakai dataset CPU untuk mencari tahu pengaruh antar variabelnya.
 
 ## Library
 
-untuk menjalankan algoritma LR dibutuhkan packages [dplyr](https://www.rdocumentation.org/packages/dplyr/versions/1.0.10)
+Untuk menjalankan algoritma Linear Regression dibutuhkan packages [dplyr](https://www.rdocumentation.org/packages/dplyr/versions/1.0.10) dan [jtools](https://cran.r-project.org/web/packages/jtools/index.html)
 
 ```{r eval=FALSE}
 library(dplyr)
 library(jtools)
 ```
+
+Setelah sudah menginstal Packages "dplyr dan jtools", berikutnya siapkan dataset yang akan digunakan.
 
 ## Dataset
 
@@ -64,11 +66,13 @@ cpu_performance <- read_csv("cpu performance.csv")
 View(cpu_performance)
 ```
 
+Jika dataset yang diinginkan sudah siap, maka langkah selanjutnya adalah mengidentifikasi label dan atribut.
+
+Label adalah atribut yang akan dijadikan target ( variabel yang dipengaruhi / dependen). Sedangkan Atribut adalah faktor atau parameter yang menyebabkan label terjadi (variabel yang mepengaruhi / independen).
+
 ```{r eval=FALSE}
 colnames(cpu_performance) <- c("vendor.name","model.name","MYCT","MMIN","MMAX","CACH","CHMIN","CHMAX","PRP","ERP")
 cpu_performance <- select(cpu_performance, -c("ERP"))
-
-
 ```
 
 ## Summary Data
@@ -85,6 +89,8 @@ cpu_performance <- select(cpu_performance, -c("ERP"))
     8. CHMAX: maksimal channel dalam satuan (integer) 
     9. PRP: kinerja relatif yang dipublikasikan (integer)
     10.ERP: perkiraan kinerja relatif dari artikel asli (integer) –diturunkan
+
+Pada dataset ini, yang akan dijadikan sebagai label adalah PRP dan yang akan dijdikan sebagai atribut adalah MYCT, MMAX, CACH, CHMIN, dan CHMAX.
 
 ```{r}
 str("cpu performance.csv")
@@ -129,33 +135,38 @@ testData <- cpu_performance[-trainingRowIndex,]
 
 ## Build Model
 
-Membuat model linear regression multivariable.
+Sebelum membuat model kita harus mencari nilai intercept dan slope terlebih dahulu.
 
 ```{r}
+# Membuat model linear regression multivariable.
+
 lm.cpu_performance <- lm(PRP ~ CHMIN+CHMAX+CACH+MMAX+MMIN+MYCT, data = trainingData)
 perf.pred <- predict(lm.cpu_performance, testData)
 ```
 
-## Summary Linear MOd
+## Summary Linear Mod
 
 ```{r}
 summary(lm.cpu_performance)
 ```
-Berdasarkan hasil diatas, dapat diketahui bahwa 
 
-intercept    =  -6.516e+01
+Berdasarkan hasil diatas, dapat diketahui bahwa
 
-Slope CHMAX =  1.908e+00 
+1.  [nilai R-squared = 0.8946 dan nilai Adjusted R-squared = 0.89 lebih dari 0.70.](http://r-statistics.co/Linear-Regression.html)
 
-Slope CHMIN = -1.307e+00
+2.  intercept = -6.516e+01
 
-Slope CACH  =  5.779e-01
+3.  Slope CHMAX = 1.908e+00
 
-Slope MMAX  =  6.402e-03
+4.  Slope CHMIN = -1.307e+00
 
-Slope MMIN  =  1.500e-02
+5.  Slope CACH = 5.779e-01
 
-Slope MYCT  =  6.346e-02
+6.  Slope MMAX = 6.402e-03
+
+7.  Slope MMIN = 1.500e-02
+
+8.  Slope MYCT = 6.346e-02
 
 ## Actual vs Prediction
 
@@ -179,20 +190,12 @@ head(actuals.preds)
 min_max_accuracy <- mean(apply(actuals.preds, 1, min) / apply(actuals.preds, 1, max))
 min_max_accuracy
 ```
+
 Didapatkan nilai 36% pada hasil akurasi modelnya. Pada Min Max Accuracy, semakin besar semakin baik.
 
 ```{r}
 mape <- mean(abs((actuals.preds$predicteds - actuals.preds$actuals))/actuals.preds$actuals)
 mape
 ```
-
-
-
-
-
-
-
-
-
 
 # REFERENSI
