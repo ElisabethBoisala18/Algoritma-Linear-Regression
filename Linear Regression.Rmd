@@ -60,10 +60,10 @@ Setelah sudah menginstal Packages "dplyr dan jtools", berikutnya siapkan dataset
 
 ## Dataset
 
-```{r}
+```{r warning=FALSE}
 library(readr)
 cpu_performance <- read_csv("cpu performance.csv")
-View(cpu_performance)
+cpu_performance
 ```
 
 Jika dataset yang diinginkan sudah siap, maka langkah selanjutnya adalah mengidentifikasi label dan atribut.
@@ -72,7 +72,7 @@ Label adalah atribut yang akan dijadikan target ( variabel yang dipengaruhi / de
 
 ```{r eval=FALSE}
 colnames(cpu_performance) <- c("vendor.name","model.name","MYCT","MMIN","MMAX","CACH","CHMIN","CHMAX","PRP","ERP")
-cpu_performance <- select(cpu_performance, -c("ERP"))
+cpu_performance <- select(cpu_performance, -c("PRP"))
 ```
 
 ## Summary Data
@@ -199,3 +199,5 @@ mape
 ```
 
 # REFERENSI
+
+1. http://r-statistics.co/Linear-Regression.html
