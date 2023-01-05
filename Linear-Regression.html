@@ -221,51 +221,89 @@ text-align: justify}
 9. PRP: kinerja relatif yang dipublikasikan (integer)
 10.ERP: perkiraan kinerja relatif dari artikel asli (integer) –diturunkan</code></pre>
 <p>Pada dataset ini, yang akan dijadikan sebagai label adalah PRP dan yang akan dijdikan sebagai atribut adalah MYCT, MMAX, CACH, CHMIN, dan CHMAX.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(<span class="st">&quot;cpu performance.csv&quot;</span>)</span></code></pre></div>
-<pre><code>##  chr &quot;cpu performance.csv&quot;</code></pre>
-<pre><code>## &#39;data.frame&#39;: 209 obs. of 9 variables:
-
-## \$ vendor.name: Factor w/ 30 levels &quot;adviser&quot;,&quot;amdahl&quot;,..: 1 2 2 2 2 2 2 2 2 2 ...
-
-## \$ model.name : Factor w/ 209 levels &quot;100&quot;,&quot;1100/61-h1&quot;,..: 30 63 64 65 66 67 75 76 77 78 ...
-
-## \$ MYCT : int 125 29 29 29 29 26 23 23 23 23 ...
-
-## \$ MMIN : int 256 8000 8000 8000 8000 8000 16000 16000 16000 32000 ...
-
-## \$ MMAX : int 6000 32000 32000 32000 16000 32000 32000 32000 64000 64000 ...
-
-## \$ CACH : int 256 32 32 32 32 64 64 64 64 128 ...
-
-## \$ CHMIN : int 16 8 8 8 8 8 16 16 16 32 ...
-
-## \$ CHMAX : int 128 32 32 32 16 32 32 32 32 64 ...
-
-## \$ PRP : int 198 269 220 172 132 318 367 489 636 1144 ...</code></pre>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="st">&quot;cpu performance.csv&quot;</span>)</span></code></pre></div>
-<pre><code>##    Length     Class      Mode 
-##         1 character character</code></pre>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="st">&quot;cpu performance.csv&quot;</span>)</span></code></pre></div>
-<pre><code>## [1] &quot;cpu performance.csv&quot;</code></pre>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># struktur dataset cpu</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(cpu_performance)</span></code></pre></div>
+<pre><code>## spc_tbl_ [209 x 10] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
+##  $ Vendor name: chr [1:209] &quot;adviser&quot; &quot;amdahl&quot; &quot;amdahl&quot; &quot;amdahl&quot; ...
+##  $ Model Name : chr [1:209] &quot;32/60&quot; &quot;470v/7&quot; &quot;470v/7a&quot; &quot;470v/7b&quot; ...
+##  $ MYCT       : num [1:209] 125 29 29 29 29 26 23 23 23 23 ...
+##  $ MMIN       : num [1:209] 256 8000 8000 8000 8000 8000 16000 16000 16000 32000 ...
+##  $ MMAX       : num [1:209] 6000 32000 32000 32000 16000 32000 32000 32000 64000 64000 ...
+##  $ CACH       : num [1:209] 256 32 32 32 32 64 64 64 64 128 ...
+##  $ CHMIN      : num [1:209] 16 8 8 8 8 8 16 16 16 32 ...
+##  $ CHMAX      : num [1:209] 128 32 32 32 16 32 32 32 32 64 ...
+##  $ PRP        : num [1:209] 198 269 220 172 132 ...
+##  $ ERP        : num [1:209] 199 253 253 253 132 ...
+##  - attr(*, &quot;spec&quot;)=
+##   .. cols(
+##   ..   `Vendor name` = col_character(),
+##   ..   `Model Name` = col_character(),
+##   ..   MYCT = col_double(),
+##   ..   MMIN = col_double(),
+##   ..   MMAX = col_double(),
+##   ..   CACH = col_double(),
+##   ..   CHMIN = col_double(),
+##   ..   CHMAX = col_double(),
+##   ..   PRP = col_double(),
+##   ..   ERP = col_double()
+##   .. )
+##  - attr(*, &quot;problems&quot;)=&lt;externalptr&gt;</code></pre>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">#ringkasan dari dataset cpu</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(cpu_performance)</span></code></pre></div>
+<pre><code>##  Vendor name         Model Name             MYCT             MMIN      
+##  Length:209         Length:209         Min.   :  17.0   Min.   :   64  
+##  Class :character   Class :character   1st Qu.:  50.0   1st Qu.:  768  
+##  Mode  :character   Mode  :character   Median : 110.0   Median : 2000  
+##                                        Mean   : 203.8   Mean   : 2868  
+##                                        3rd Qu.: 225.0   3rd Qu.: 4000  
+##                                        Max.   :1500.0   Max.   :32000  
+##       MMAX            CACH            CHMIN            CHMAX       
+##  Min.   :   64   Min.   :  0.00   Min.   : 0.000   Min.   :  0.00  
+##  1st Qu.: 4000   1st Qu.:  0.00   1st Qu.: 1.000   1st Qu.:  5.00  
+##  Median : 8000   Median :  8.00   Median : 2.000   Median :  8.00  
+##  Mean   :11796   Mean   : 25.21   Mean   : 4.699   Mean   : 18.27  
+##  3rd Qu.:16000   3rd Qu.: 32.00   3rd Qu.: 6.000   3rd Qu.: 24.00  
+##  Max.   :64000   Max.   :256.00   Max.   :52.000   Max.   :176.00  
+##       PRP              ERP         
+##  Min.   :   6.0   Min.   :  15.00  
+##  1st Qu.:  27.0   1st Qu.:  28.00  
+##  Median :  50.0   Median :  45.00  
+##  Mean   : 105.6   Mean   :  99.33  
+##  3rd Qu.: 113.0   3rd Qu.: 101.00  
+##  Max.   :1150.0   Max.   :1238.00</code></pre>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(cpu_performance)</span></code></pre></div>
+<pre><code>## # A tibble: 6 x 10
+##   `Vendor name` `Model Name`  MYCT  MMIN  MMAX  CACH CHMIN CHMAX   PRP   ERP
+##   &lt;chr&gt;         &lt;chr&gt;        &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 adviser       32/60          125   256  6000   256    16   128   198   199
+## 2 amdahl        470v/7          29  8000 32000    32     8    32   269   253
+## 3 amdahl        470v/7a         29  8000 32000    32     8    32   220   253
+## 4 amdahl        470v/7b         29  8000 32000    32     8    32   172   253
+## 5 amdahl        470v/7c         29  8000 16000    32     8    16   132   132
+## 6 amdahl        470v/b          26  8000 32000    64     8    32   318   290</code></pre>
 </div>
-<div id="create-training-and-test-data" class="section level2">
-<h2>Create Training and Test Data</h2>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2</span>)</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>trainingRowIndex <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">3</span><span class="sc">:</span><span class="fu">NROW</span>(cpu_performance), <span class="fl">0.7</span><span class="sc">*</span><span class="fu">NROW</span>(cpu_performance))</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>trainingData <span class="ot">&lt;-</span> cpu_performance[trainingRowIndex, ]</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>testData <span class="ot">&lt;-</span> cpu_performance[<span class="sc">-</span>trainingRowIndex,]</span></code></pre></div>
+<div id="membuat-data-training-dan-testing" class="section level2">
+<h2>Membuat Data “Training” dan “Testing”</h2>
+<p>Pada tahap ini data akan dibagi menjadi 2 jenis, yaitu “data training” dan “data testing”</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>trainingRowIndex <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">3</span><span class="sc">:</span><span class="fu">NROW</span>(cpu_performance), <span class="fl">0.7</span><span class="sc">*</span><span class="fu">NROW</span>(cpu_performance))</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>trainingData <span class="ot">&lt;-</span> cpu_performance[trainingRowIndex, ]</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>testData <span class="ot">&lt;-</span> cpu_performance[<span class="sc">-</span>trainingRowIndex,]</span></code></pre></div>
+<p>Pembagian ini terdiri dari 70% training dan 30% testing. Data training adalah data yang digunakan untuk membuat atau membentuk model. Sedangkan, Data Testing adalah data yang digunakan untuk mengetes model.</p>
 </div>
-<div id="build-model" class="section level2">
-<h2>Build Model</h2>
+<div id="membuat-model" class="section level2">
+<h2>Membuat Model</h2>
 <p>Sebelum membuat model kita harus mencari nilai intercept dan slope terlebih dahulu.</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Membuat model linear regression multivariable.</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>lm.cpu_performance <span class="ot">&lt;-</span> <span class="fu">lm</span>(PRP <span class="sc">~</span> CHMIN<span class="sc">+</span>CHMAX<span class="sc">+</span>CACH<span class="sc">+</span>MMAX<span class="sc">+</span>MMIN<span class="sc">+</span>MYCT, <span class="at">data =</span> trainingData)</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>perf.pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(lm.cpu_performance, testData)</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Membuat model linear regression multivariable.</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>lm.cpu_performance <span class="ot">&lt;-</span> <span class="fu">lm</span>(PRP <span class="sc">~</span> CHMIN<span class="sc">+</span>CHMAX<span class="sc">+</span>CACH<span class="sc">+</span>MMAX<span class="sc">+</span>MMIN<span class="sc">+</span>MYCT, <span class="at">data =</span> trainingData)</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>perf.pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(lm.cpu_performance, testData)</span></code></pre></div>
 </div>
-<div id="summary-linear-mod" class="section level2">
-<h2>Summary Linear Mod</h2>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lm.cpu_performance)</span></code></pre></div>
+<div id="summary-linear-model" class="section level2">
+<h2>Summary Linear Model</h2>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lm.cpu_performance)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = PRP ~ CHMIN + CHMAX + CACH + MMAX + MMIN + MYCT, 
@@ -305,14 +343,14 @@ text-align: justify}
 <div id="actual-vs-prediction" class="section level2">
 <h2>Actual vs Prediction</h2>
 <p>Membuat dataframe dari PRP (Actual) dan perf.pred (Prediksi)</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>actuals.preds <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">cbind</span>(<span class="at">actuals=</span> testData<span class="sc">$</span>PRP, <span class="at">predicteds=</span> perf.pred))</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(actuals.preds)</span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>actuals.preds <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">cbind</span>(<span class="at">actuals=</span> testData<span class="sc">$</span>PRP, <span class="at">predicteds=</span> perf.pred))</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(actuals.preds)</span></code></pre></div>
 <pre><code>##              actuals predicteds
 ## actuals    1.0000000  0.8635027
 ## predicteds 0.8635027  1.0000000</code></pre>
 <p>Berikut gambaran hasil yang didaptkan. Terlihat sangat jauh pada hasil aktual dengan prediksinya.</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(actuals.preds)</span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(actuals.preds)</span></code></pre></div>
 <pre><code>##   actuals predicteds
 ## 1     198 356.331064
 ## 2     269 330.616499
@@ -323,12 +361,12 @@ text-align: justify}
 </div>
 <div id="min-max-accuracy-mape-mean-absolute-percentage-error" class="section level2">
 <h2>Min Max Accuracy &amp; MAPE (Mean Absolute Percentage Error)</h2>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>min_max_accuracy <span class="ot">&lt;-</span> <span class="fu">mean</span>(<span class="fu">apply</span>(actuals.preds, <span class="dv">1</span>, min) <span class="sc">/</span> <span class="fu">apply</span>(actuals.preds, <span class="dv">1</span>, max))</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>min_max_accuracy</span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>min_max_accuracy <span class="ot">&lt;-</span> <span class="fu">mean</span>(<span class="fu">apply</span>(actuals.preds, <span class="dv">1</span>, min) <span class="sc">/</span> <span class="fu">apply</span>(actuals.preds, <span class="dv">1</span>, max))</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>min_max_accuracy</span></code></pre></div>
 <pre><code>## [1] 0.3657729</code></pre>
 <p>Didapatkan nilai 36% pada hasil akurasi modelnya. Pada Min Max Accuracy, semakin besar semakin baik.</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>mape <span class="ot">&lt;-</span> <span class="fu">mean</span>(<span class="fu">abs</span>((actuals.preds<span class="sc">$</span>predicteds <span class="sc">-</span> actuals.preds<span class="sc">$</span>actuals))<span class="sc">/</span>actuals.preds<span class="sc">$</span>actuals)</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>mape</span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>mape <span class="ot">&lt;-</span> <span class="fu">mean</span>(<span class="fu">abs</span>((actuals.preds<span class="sc">$</span>predicteds <span class="sc">-</span> actuals.preds<span class="sc">$</span>actuals))<span class="sc">/</span>actuals.preds<span class="sc">$</span>actuals)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>mape</span></code></pre></div>
 <pre><code>## [1] 0.9308188</code></pre>
 </div>
 </div>

@@ -93,38 +93,24 @@ cpu_performance <- select(cpu_performance, -c("PRP"))
 Pada dataset ini, yang akan dijadikan sebagai label adalah PRP dan yang akan dijdikan sebagai atribut adalah MYCT, MMAX, CACH, CHMIN, dan CHMAX.
 
 ```{r}
-str("cpu performance.csv")
-```
+# struktur dataset cpu
 
-    ## 'data.frame': 209 obs. of 9 variables:
-
-    ## \$ vendor.name: Factor w/ 30 levels "adviser","amdahl",..: 1 2 2 2 2 2 2 2 2 2 ...
-
-    ## \$ model.name : Factor w/ 209 levels "100","1100/61-h1",..: 30 63 64 65 66 67 75 76 77 78 ...
-
-    ## \$ MYCT : int 125 29 29 29 29 26 23 23 23 23 ...
-
-    ## \$ MMIN : int 256 8000 8000 8000 8000 8000 16000 16000 16000 32000 ...
-
-    ## \$ MMAX : int 6000 32000 32000 32000 16000 32000 32000 32000 64000 64000 ...
-
-    ## \$ CACH : int 256 32 32 32 32 64 64 64 64 128 ...
-
-    ## \$ CHMIN : int 16 8 8 8 8 8 16 16 16 32 ...
-
-    ## \$ CHMAX : int 128 32 32 32 16 32 32 32 32 64 ...
-
-    ## \$ PRP : int 198 269 220 172 132 318 367 489 636 1144 ...
-
-```{r}
-summary("cpu performance.csv")
+str(cpu_performance)
 ```
 
 ```{r}
-head("cpu performance.csv")
+#ringkasan dari dataset cpu
+
+summary(cpu_performance)
 ```
 
-## Create Training and Test Data
+```{r}
+head(cpu_performance)
+```
+
+## Membuat Data "Training" dan "Testing"
+
+Pada tahap ini data akan dibagi menjadi 2 jenis, yaitu "data training" dan "data testing"
 
 ```{r}
 set.seed(2)
@@ -132,8 +118,10 @@ trainingRowIndex <- sample(3:NROW(cpu_performance), 0.7*NROW(cpu_performance))
 trainingData <- cpu_performance[trainingRowIndex, ]
 testData <- cpu_performance[-trainingRowIndex,]
 ```
+Pembagian ini terdiri dari 70% training dan 30% testing. Data training adalah data yang digunakan untuk membuat atau membentuk model. Sedangkan, Data Testing adalah data yang digunakan untuk mengetes model.
 
-## Build Model
+
+## Membuat Model
 
 Sebelum membuat model kita harus mencari nilai intercept dan slope terlebih dahulu.
 
@@ -144,7 +132,7 @@ lm.cpu_performance <- lm(PRP ~ CHMIN+CHMAX+CACH+MMAX+MMIN+MYCT, data = trainingD
 perf.pred <- predict(lm.cpu_performance, testData)
 ```
 
-## Summary Linear Mod
+## Summary Linear Model
 
 ```{r}
 summary(lm.cpu_performance)
