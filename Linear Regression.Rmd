@@ -35,7 +35,7 @@ Algoritma linear regression memiliki beberapa tahapan, yaitu :
 
 1.  Menyiapkan data
 
-2.  mengidentifikasi Atribut dan label
+2.  Mengidentifikasi Atribut dan label
 
 3.  Mencari nilai intercept dan slope
 
@@ -45,7 +45,7 @@ Algoritma linear regression memiliki beberapa tahapan, yaitu :
 
 # EKSPERIMEN ALGORITMA LINEAR REGRESSION
 
-Pada artikel ini saya akan memakai dataset CPU untuk mencari tahu pengaruh antar variabelnya.
+Pada artikel ini saya akan memakai [dataset CPU](https://archive.ics.uci.edu/ml/machine-learning-databases/cpu-performance/machine.data) untuk mencari tahu pengaruh antar variabelnya.
 
 ## Library
 
@@ -55,11 +55,14 @@ Untuk menjalankan algoritma Linear Regression dibutuhkan packages [dplyr](https:
 library(dplyr)
 library(jtools)
 ```
+
 Setelah sudah menginstal Packages "dplyr dan jtools", berikutnya siapkan dataset yang akan digunakan.
 
 ## Dataset
 
 ```{r warning=FALSE}
+# Pastikan dataset yang ingin sudah diimport di R
+
 library(readr)
 cpu_performance <- read_csv("cpu performance.csv")
 cpu_performance
@@ -120,9 +123,9 @@ testData <- cpu_performance[-trainingRowIndex,]
 
 Pembagian ini terdiri dari 70% training dan 30% testing. Data training adalah data yang digunakan untuk membuat atau membentuk model. Sedangkan, Data Testing adalah data yang digunakan untuk mengetes model.
 
-## Membuat Model
+## Membuat Model Linear Regression
 
-Sebelum membuat model kita harus mencari nilai intercept dan slope terlebih dahulu.
+Sebelum membuat model kita harus mencari nilai intercept dan slope (β) terlebih dahulu.
 
 ```{r}
 # Membuat model linear regression multivariable.
@@ -132,25 +135,16 @@ perf.pred <- predict(lm.cpu_performance, testData)
 
 print(lm.cpu_performance)
 ```
-Berdasarkan output di atas, dapat dilihat bahwa bagian 'Koefisien' memiliki tujuh komponen: 
 
-**Intercept :**  -65.155265
-**Slope :** 
-CHMIN : -1.307432, CHMAX : 1.908457, CACH : 0.577891, MMAX :0.006402, MMIN : 0.014996, MYCT : 0.063459  
+Berdasarkan output di atas, dapat dilihat bahwa bagian 'Koefisien' memiliki tujuh komponen:
 
-Dapat ditulis :
+**Intercept :** -65.155265
 
-*PRP = Intercept + (β1*CHMIN) + (β2*CHMAX) + (β3*CACH) + (β4*MMAX) + (β5*MMIN) + (β6*MYCT)*
+**Slope (β) :** CHMIN (β1) : -1.307432, CHMAX (β2) : 1.908457, CACH (β3) : 0.577891, MMAX (β4) :0.006402, MMIN (β5) : 0.014996, MYCT (β6) : 0.063459
 
-## Summary Linear Model
+Modelnya dapat ditulis :
 
-```{r}
-summary(lm.cpu_performance)
-```
-
-Berdasarkan hasil diatas, dapat diketahui bahwa
-
-nilai R-squared = 0.8946 dan nilai Adjusted R-squared = 0.89 lebih dari 0.70.
+**PRP = Intercept + (β1*CHMIN) + (β2*CHMAX) + (β3*CACH) + (β4*MMAX) + (β5*MMIN) + (β6*MYCT) + ϵ**
 
 ## Actual vs Prediction
 
@@ -162,26 +156,75 @@ actuals.preds <- data.frame(cbind(actuals= testData$PRP, predicteds= perf.pred))
 cor(actuals.preds)
 ```
 
-Berikut gambaran hasil yang didaptkan. Terlihat sangat jauh pada hasil aktual dengan prediksinya.
+Berikut gambaran hasil yang didapatkan. Terlihat sangat jauh pada hasil aktual dengan prediksinya.
 
 ```{r}
 head(actuals.preds)
 ```
 
-## Min Max Accuracy & MAPE (Mean Absolute Percentage Error)
+## Summary Linear Model
+
+Model linier memiliki rumus yang dapat digunakan untuk memprediksi kinerja relatif CPU yang akan dipublikasi.
+
+Sebelum menggunakan model regresi, harus dipastikan bahwa model tersebut signifikan secara statistik atau dengan kata lain perlu dilakukan evaluasi model kembali, agar tahu apakah model yang dibuat sudah sesuai dengan data atau belum.
 
 ```{r}
+# Ringkasan Model linear  
+
+summary(lm.cpu_performance)
+```
+
+-> Cara mengetahui apakah model regresi yang dipakai cocok dengan data yang ada adalah dengan cara melihat nilai *R-squared* dan *nilai Adjusted R-squared*nya. Jika nilai R-squared dan nilai Adjusted R-squared besar (> 0.70) maka model tesebut dapat dikatakan baik.
+
+Berdasarkan hasil diatas, dapat diketahui bahwa nilai R-squared = 0.8946 dan nilai Adjusted R-squared = 0.89. Karena nilainya \> 0.70, maka model tesebut dapat dikatakan baik.
+
+Akan tetapi untuk mengevaluasi model tidak hanya dilihat dari nilai R-squared dan nilai Adjusted R-squared karena nilai R-squared dan nilai Adjusted R-squared saja masih kurang akurat untuk menyatakan bahwa model tersebut sudah baik, maka perlu dilakukan evluasi lagi berdasarkan nilai eror dan AIC.
+
+## Evaluasi model berdasarkan Eror dan AIC
+
+```{r}
+
+# Syarat pada Min Max Accuracy adalah semakin besar nilainya artinya  semakin baik.
+
 min_max_accuracy <- mean(apply(actuals.preds, 1, min) / apply(actuals.preds, 1, max))
 min_max_accuracy
 ```
 
-Didapatkan nilai 36% pada hasil akurasi modelnya. Pada Min Max Accuracy, semakin besar semakin baik.
+Didapatkan nilai 36% pada hasil akurasi modelnya. Ini artinya model yang dihasilkan kurang Baik.
 
 ```{r}
+
+# Syarat pada MAPE (Mean Absolut Presentase Eror) adalah Semakin rendah nilai MAPE maka semakin baik modelnya
+
 mape <- mean(abs((actuals.preds$predicteds - actuals.preds$actuals))/actuals.preds$actuals)
 mape
 ```
 
+Didapatkan nilai 93% pada hasil akurasi modelnya. Ini artinya model yang dihasilkan kurang baik.
+
+```{r}
+
+# Syarat pada AIC (Akaike Information Criterion) adalah Semakin rendah niali AIC maka semakin baik modelnya
+
+AIC(lm.cpu_performance)
+```
+
+Didapatkan nilai 1612.401. karena nilai AIC-nya besar maka dapat dikatakan bahwa model yang dihasilkan kurang baik.
+
+# Kesimpulan dan Saran
+
+## Kesimpulan
+
+Berdasarkan hasil analisis diatas dapat disimpulkan bahwa model yang dihasilkan kurang sesuai dengan dataset atau dengan kata lain model yang dihasilkan tidak cukup akurat untuk digunakan sebagai acuan untuk memprediksi.
+
+## Saran
+
+Jika ingin mempredeksi dataset ini (CPU) sebaiknya menggunakan algoritma lain saja. Tetapi jika ingin tetap menggunakan algoritma ini, maka peneliti harus menambah beberapa variabel atau objek (data) yang berkaitan/berhubungan dengan dataset ini.
+
 # REFERENSI
 
 1.  <http://r-statistics.co/Linear-Regression.html>
+2.  <https://archive.ics.uci.edu/ml/machine-learning-databases/cpu-performance/machine.data>
+3.  <https://www.rdocumentation.org/packages/dplyr/versions/1.0.10>
+4.  <https://cran.r-project.org/web/packages/jtools/index.html>
+5.  <https://id.eferrit.com/pengantar-akaike-information-criterion-aic/>
