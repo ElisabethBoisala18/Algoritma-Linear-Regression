@@ -228,3 +228,4 @@ Jika ingin mempredeksi dataset ini (CPU) sebaiknya menggunakan algoritma lain sa
 3.  <https://www.rdocumentation.org/packages/dplyr/versions/1.0.10>
 4.  <https://cran.r-project.org/web/packages/jtools/index.html>
 5.  <https://id.eferrit.com/pengantar-akaike-information-criterion-aic/>
+6. Akun Github : <https://github.com/ElisabethBoisala18/Algoritma-Linear-Regression>
