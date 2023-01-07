@@ -55,7 +55,6 @@ Untuk menjalankan algoritma Linear Regression dibutuhkan packages [dplyr](https:
 library(dplyr)
 library(jtools)
 ```
-
 Setelah sudah menginstal Packages "dplyr dan jtools", berikutnya siapkan dataset yang akan digunakan.
 
 ## Dataset
@@ -118,8 +117,8 @@ trainingRowIndex <- sample(3:NROW(cpu_performance), 0.7*NROW(cpu_performance))
 trainingData <- cpu_performance[trainingRowIndex, ]
 testData <- cpu_performance[-trainingRowIndex,]
 ```
-Pembagian ini terdiri dari 70% training dan 30% testing. Data training adalah data yang digunakan untuk membuat atau membentuk model. Sedangkan, Data Testing adalah data yang digunakan untuk mengetes model.
 
+Pembagian ini terdiri dari 70% training dan 30% testing. Data training adalah data yang digunakan untuk membuat atau membentuk model. Sedangkan, Data Testing adalah data yang digunakan untuk mengetes model.
 
 ## Membuat Model
 
@@ -130,7 +129,18 @@ Sebelum membuat model kita harus mencari nilai intercept dan slope terlebih dahu
 
 lm.cpu_performance <- lm(PRP ~ CHMIN+CHMAX+CACH+MMAX+MMIN+MYCT, data = trainingData)
 perf.pred <- predict(lm.cpu_performance, testData)
+
+print(lm.cpu_performance)
 ```
+Berdasarkan output di atas, dapat dilihat bahwa bagian 'Koefisien' memiliki tujuh komponen: 
+
+**Intercept :**  -65.155265
+**Slope :** 
+CHMIN : -1.307432, CHMAX : 1.908457, CACH : 0.577891, MMAX :0.006402, MMIN : 0.014996, MYCT : 0.063459  
+
+Dapat ditulis :
+
+*PRP = Intercept + (β1*CHMIN) + (β2*CHMAX) + (β3*CACH) + (β4*MMAX) + (β5*MMIN) + (β6*MYCT)*
 
 ## Summary Linear Model
 
@@ -140,21 +150,7 @@ summary(lm.cpu_performance)
 
 Berdasarkan hasil diatas, dapat diketahui bahwa
 
-1.  [nilai R-squared = 0.8946 dan nilai Adjusted R-squared = 0.89 lebih dari 0.70.](http://r-statistics.co/Linear-Regression.html)
-
-2.  intercept = -6.516e+01
-
-3.  Slope CHMAX = 1.908e+00
-
-4.  Slope CHMIN = -1.307e+00
-
-5.  Slope CACH = 5.779e-01
-
-6.  Slope MMAX = 6.402e-03
-
-7.  Slope MMIN = 1.500e-02
-
-8.  Slope MYCT = 6.346e-02
+nilai R-squared = 0.8946 dan nilai Adjusted R-squared = 0.89 lebih dari 0.70.
 
 ## Actual vs Prediction
 
@@ -188,4 +184,4 @@ mape
 
 # REFERENSI
 
-1. http://r-statistics.co/Linear-Regression.html
+1.  <http://r-statistics.co/Linear-Regression.html>

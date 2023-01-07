@@ -12,7 +12,7 @@
 
 <meta name="author" content="Elisabeth Boisala - Institut Teknologi Statistika dan Bisnis Muhammadiyah Semarang" />
 
-<meta name="date" content="2023-01-05" />
+<meta name="date" content="2023-01-07" />
 
 <title>Algoritma Linear Regression dengan R</title>
 
@@ -132,7 +132,7 @@ a.sourceLine {
 <div class="inner">
 <h1 class="title toc-ignore">Algoritma Linear Regression dengan R</h1>
 <h3 class="author">Elisabeth Boisala - Institut Teknologi Statistika dan Bisnis Muhammadiyah Semarang</h3>
-<h3 class="date">2023-01-05</h3>
+<h3 class="date">2023-01-07</h3>
 </div>
 </header>
 
@@ -299,11 +299,27 @@ text-align: justify}
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Membuat model linear regression multivariable.</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>lm.cpu_performance <span class="ot">&lt;-</span> <span class="fu">lm</span>(PRP <span class="sc">~</span> CHMIN<span class="sc">+</span>CHMAX<span class="sc">+</span>CACH<span class="sc">+</span>MMAX<span class="sc">+</span>MMIN<span class="sc">+</span>MYCT, <span class="at">data =</span> trainingData)</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>perf.pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(lm.cpu_performance, testData)</span></code></pre></div>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>perf.pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(lm.cpu_performance, testData)</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(lm.cpu_performance)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = PRP ~ CHMIN + CHMAX + CACH + MMAX + MMIN + MYCT, 
+##     data = trainingData)
+## 
+## Coefficients:
+## (Intercept)        CHMIN        CHMAX         CACH         MMAX         MMIN  
+##  -65.155265    -1.307432     1.908457     0.577891     0.006402     0.014996  
+##        MYCT  
+##    0.063459</code></pre>
+<p>Berdasarkan output di atas, dapat dilihat bahwa bagian ‘Koefisien’ memiliki tujuh komponen:</p>
+<p><strong>Intercept :</strong> -65.155265 <strong>Slope :</strong> CHMIN : -1.307432, CHMAX : 1.908457, CACH : 0.577891, MMAX :0.006402, MMIN : 0.014996, MYCT : 0.063459</p>
+<p>Dapat ditulis :</p>
+<p><em>PRP = Intercept + (β1</em>CHMIN) + (β2<em>CHMAX) + (β3</em>CACH) + (β4<em>MMAX) + (β5</em>MMIN) + (β6<em>MYCT)</em></p>
 </div>
 <div id="summary-linear-model" class="section level2">
 <h2>Summary Linear Model</h2>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lm.cpu_performance)</span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lm.cpu_performance)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = PRP ~ CHMIN + CHMAX + CACH + MMAX + MMIN + MYCT, 
@@ -329,28 +345,19 @@ text-align: justify}
 ## Multiple R-squared:  0.8946, Adjusted R-squared:   0.89 
 ## F-statistic: 196.6 on 6 and 139 DF,  p-value: &lt; 2.2e-16</code></pre>
 <p>Berdasarkan hasil diatas, dapat diketahui bahwa</p>
-<ol style="list-style-type: decimal">
-<li><p><a href="http://r-statistics.co/Linear-Regression.html">nilai R-squared = 0.8946 dan nilai Adjusted R-squared = 0.89 lebih dari 0.70.</a></p></li>
-<li><p>intercept = -6.516e+01</p></li>
-<li><p>Slope CHMAX = 1.908e+00</p></li>
-<li><p>Slope CHMIN = -1.307e+00</p></li>
-<li><p>Slope CACH = 5.779e-01</p></li>
-<li><p>Slope MMAX = 6.402e-03</p></li>
-<li><p>Slope MMIN = 1.500e-02</p></li>
-<li><p>Slope MYCT = 6.346e-02</p></li>
-</ol>
+<p>nilai R-squared = 0.8946 dan nilai Adjusted R-squared = 0.89 lebih dari 0.70.</p>
 </div>
 <div id="actual-vs-prediction" class="section level2">
 <h2>Actual vs Prediction</h2>
 <p>Membuat dataframe dari PRP (Actual) dan perf.pred (Prediksi)</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>actuals.preds <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">cbind</span>(<span class="at">actuals=</span> testData<span class="sc">$</span>PRP, <span class="at">predicteds=</span> perf.pred))</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(actuals.preds)</span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>actuals.preds <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">cbind</span>(<span class="at">actuals=</span> testData<span class="sc">$</span>PRP, <span class="at">predicteds=</span> perf.pred))</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(actuals.preds)</span></code></pre></div>
 <pre><code>##              actuals predicteds
 ## actuals    1.0000000  0.8635027
 ## predicteds 0.8635027  1.0000000</code></pre>
 <p>Berikut gambaran hasil yang didaptkan. Terlihat sangat jauh pada hasil aktual dengan prediksinya.</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(actuals.preds)</span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(actuals.preds)</span></code></pre></div>
 <pre><code>##   actuals predicteds
 ## 1     198 356.331064
 ## 2     269 330.616499
@@ -361,12 +368,12 @@ text-align: justify}
 </div>
 <div id="min-max-accuracy-mape-mean-absolute-percentage-error" class="section level2">
 <h2>Min Max Accuracy &amp; MAPE (Mean Absolute Percentage Error)</h2>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>min_max_accuracy <span class="ot">&lt;-</span> <span class="fu">mean</span>(<span class="fu">apply</span>(actuals.preds, <span class="dv">1</span>, min) <span class="sc">/</span> <span class="fu">apply</span>(actuals.preds, <span class="dv">1</span>, max))</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>min_max_accuracy</span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>min_max_accuracy <span class="ot">&lt;-</span> <span class="fu">mean</span>(<span class="fu">apply</span>(actuals.preds, <span class="dv">1</span>, min) <span class="sc">/</span> <span class="fu">apply</span>(actuals.preds, <span class="dv">1</span>, max))</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>min_max_accuracy</span></code></pre></div>
 <pre><code>## [1] 0.3657729</code></pre>
 <p>Didapatkan nilai 36% pada hasil akurasi modelnya. Pada Min Max Accuracy, semakin besar semakin baik.</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>mape <span class="ot">&lt;-</span> <span class="fu">mean</span>(<span class="fu">abs</span>((actuals.preds<span class="sc">$</span>predicteds <span class="sc">-</span> actuals.preds<span class="sc">$</span>actuals))<span class="sc">/</span>actuals.preds<span class="sc">$</span>actuals)</span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>mape</span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>mape <span class="ot">&lt;-</span> <span class="fu">mean</span>(<span class="fu">abs</span>((actuals.preds<span class="sc">$</span>predicteds <span class="sc">-</span> actuals.preds<span class="sc">$</span>actuals))<span class="sc">/</span>actuals.preds<span class="sc">$</span>actuals)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>mape</span></code></pre></div>
 <pre><code>## [1] 0.9308188</code></pre>
 </div>
 </div>
