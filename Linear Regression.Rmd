@@ -224,9 +224,9 @@ Jika ingin mempredeksi dataset ini (CPU) sebaiknya menggunakan algoritma lain sa
 # REFERENSI
 
 1.  <http://r-statistics.co/Linear-Regression.html>
-2.  <https://archive.ics.uci.edu/ml/machine-learning-databases/cpu-performance/machine.data>
+2.  <https://rpubs.com/avosta/475756>
 3.  <https://www.rdocumentation.org/packages/dplyr/versions/1.0.10>
 4.  <https://cran.r-project.org/web/packages/jtools/index.html>
 5.  <https://id.eferrit.com/pengantar-akaike-information-criterion-aic/>
-6.  <https://rpubs.com/avosta/475756>
+6. Dataset : <https://archive.ics.uci.edu/ml/machine-learning-databases/cpu-performance/machine.data>
 7. Akun Github : <https://github.com/ElisabethBoisala18/Algoritma-Linear-Regression>
